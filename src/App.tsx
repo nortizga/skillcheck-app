@@ -5,7 +5,7 @@ import LoginPage from './pages/LoginPage';
 import DiaryPage from './pages/DiaryPage';
 
 export default function App() {
-  const { user, loading: authLoading, signIn, signUp, signOut } = useAuth();
+  const { user, loading: authLoading, signIn, signOut } = useAuth();
   const { entries, saving, updateField, toggleSkill, saveEntry } = useEntries(user?.id);
 
   const handleAuth = async (email: string, password: string): Promise<AuthResult> => {
