@@ -40,7 +40,7 @@ VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ```
 
-### 4. Run
+### 4. Run Locally
 
 ```bash
 npm run dev
