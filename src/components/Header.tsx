@@ -42,7 +42,7 @@ export default function Header({ t, onSwitchLang, onExport, onSignOut }: Props) 
             {onSignOut && (
               <button
                 onClick={onSignOut}
-                className="bg-white/[0.08] border border-white/20 text-brand-cream rounded-full px-3.5 py-1.5 cursor-pointer font-semibold text-[12px] font-body"
+                className="bg-white/[0.08] border border-white/20 text-brand-cream rounded-full px-3.5 py-1.5 cursor-pointer font-semibold text-[12px] font-body whitespace-nowrap"
               >
                 {t.logout}
               </button>
