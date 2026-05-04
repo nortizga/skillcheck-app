@@ -87,10 +87,6 @@ export default function DiaryPage({
     ['substances', t.substances as string],
   ];
 
-  const thoughtRows: [string, string][] = [
-    ['suicidal_thoughts', t.suicidalThoughts as string],
-    ['self_harm_thoughts', t.selfHarmThoughts as string],
-  ];
 
   const emotionKeys = ['guilt', 'shame', 'fear', 'joy', 'sadness', 'anger'] as const;
 
@@ -149,16 +145,24 @@ export default function DiaryPage({
 
         {/* Thoughts */}
         <Section title={t.thoughts as string} subtitle={t.thoughtSub as string} icon="💭">
-          {thoughtRows.map(([field, label], i) => (
-            <div key={field} className="py-2.5" style={{ borderTop: i > 0 ? '1px solid #F7F0E3' : 'none' }}>
-              <label className="text-sm text-brand-black/80 font-medium block mb-2.5 font-body">{label}</label>
-              <IntensityStepper
-                value={entry[field as keyof typeof entry] as number | null}
-                onChange={update(field) as (v: number) => void}
-                accent="#839788"
-              />
-            </div>
-          ))}
+          <div className="flex justify-between items-center py-3" style={{ borderBottom: '1px solid #F7F0E3' }}>
+            <span className="text-sm text-brand-black/80 font-body font-medium">{t.suicidalThoughts as string}</span>
+            <YesNoToggle
+              value={entry.suicidal_thoughts}
+              onChange={update('suicidal_thoughts') as (v: boolean) => void}
+              yesLabel={t.yes as string}
+              noLabel={t.no as string}
+            />
+          </div>
+          <div className="flex justify-between items-center py-3">
+            <span className="text-sm text-brand-black/80 font-body font-medium">{t.selfHarmThoughts as string}</span>
+            <YesNoToggle
+              value={entry.self_harm_thoughts}
+              onChange={update('self_harm_thoughts') as (v: boolean) => void}
+              yesLabel={t.yes as string}
+              noLabel={t.no as string}
+            />
+          </div>
         </Section>
 
         {/* Emotions */}
@@ -213,6 +217,16 @@ export default function DiaryPage({
           <p className="text-[13px] font-bold text-brand-sage font-body mt-1 mb-0">
             {t.crisisLine} — {t.crisisCall}
           </p>
+          {t.crisisUrl && (
+            <a
+              href={t.crisisUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[12px] text-brand-sage font-body mt-1 block underline"
+            >
+              {t.crisisUrlLabel}
+            </a>
+          )}
         </div>
       </div>
 

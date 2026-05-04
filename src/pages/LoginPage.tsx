@@ -46,25 +46,17 @@ export default function LoginPage({ onAuth }: Props) {
 
   return (
     <div className="min-h-screen bg-brand-cream-light flex items-center justify-center p-5 font-body">
+      <button
+        onClick={switchLang}
+        className="fixed top-4 right-4 z-50 bg-brand-black/[0.06] border border-brand-cream-dark text-brand-taupe rounded-full px-3.5 py-1.5 cursor-pointer font-bold text-[13px] font-body"
+      >
+        {t.langSwitch}
+      </button>
       <div className="w-full max-w-[380px]">
         <div className="mb-10">
-          <div className="flex items-center">
-            <div className="flex-1" />
-            <h1 className="text-[40px] font-display font-bold text-brand-black tracking-tight m-0">
-              SkillCheck
-            </h1>
-            <div className="flex-1 flex justify-end">
-              <button
-                onClick={switchLang}
-                className="bg-brand-black/[0.06] border border-brand-cream-dark text-brand-taupe rounded-full px-3.5 py-1.5 cursor-pointer font-bold text-[13px] font-body"
-              >
-                {t.langSwitch}
-              </button>
-            </div>
-          </div>
-          <p className="text-brand-taupe text-[15px] mt-1 mb-0 text-center">
-            {t.loginTagline}
-          </p>
+          <h1 className="text-[40px] font-display font-bold text-brand-black tracking-tight m-0 text-center">
+            SkillCheck
+          </h1>
         </div>
 
         <div className="bg-white rounded-2xl p-7 border border-brand-cream-dark shadow-[0_4px_24px_rgba(0,0,0,0.06)]">

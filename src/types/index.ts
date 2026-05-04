@@ -2,8 +2,8 @@ export interface DiaryEntry {
   id?: string;
   suicidal_behavior: boolean | null;
   self_harm_behavior: boolean | null;
-  suicidal_thoughts: number | null;
-  self_harm_thoughts: number | null;
+  suicidal_thoughts: boolean | null;
+  self_harm_thoughts: boolean | null;
   substances: boolean | null;
   guilt: number | null;
   shame: number | null;
@@ -91,6 +91,11 @@ export interface Translations {
   authInvalid: string;
   authConfirmTitle: string;
   authConfirmBody: string;
+  crisisText: string;
+  crisisLine: string;
+  crisisCall: string;
+  crisisUrl: string;
+  crisisUrlLabel: string;
   [key: string]: string | string[];
 }
 
@@ -105,8 +110,8 @@ export interface SupabaseEntryRow {
   entry_date: string;
   suicidal_behavior: boolean | null;
   self_harm_behavior: boolean | null;
-  suicidal_thoughts: number | null;
-  self_harm_thoughts: number | null;
+  suicidal_thoughts: boolean | null;
+  self_harm_thoughts: boolean | null;
   substances: boolean | null;
   guilt: number | null;
   shame: number | null;

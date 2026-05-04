@@ -63,6 +63,11 @@ export const i18n: Record<Lang, Translations> = {
     authInvalid: 'Incorrect email or password.',
     authConfirmTitle: 'Check your email',
     authConfirmBody: 'We sent a confirmation link to your email address. Please click it to activate your account.',
+    crisisText: 'If you are in crisis or need immediate support, please reach out.',
+    crisisLine: '988 Suicide & Crisis Lifeline',
+    crisisCall: 'Call or text 988',
+    crisisUrl: '',
+    crisisUrlLabel: '',
   },
   es: {
     appName: 'SkillCheck',
@@ -126,6 +131,11 @@ export const i18n: Record<Lang, Translations> = {
     authInvalid: 'Correo o contraseña incorrectos.',
     authConfirmTitle: 'Revisa tu correo',
     authConfirmBody: 'Enviamos un enlace de confirmación a tu correo electrónico. Haz clic en él para activar tu cuenta.',
+    crisisText: 'Si estás en crisis o necesitas apoyo inmediato, por favor comunícate.',
+    crisisLine: 'Línea de Crisis 988',
+    crisisCall: 'Llama o envía texto al 988',
+    crisisUrl: 'https://lineapas.assmca.pr.gov/home',
+    crisisUrlLabel: 'Línea PAS — lineapas.assmca.pr.gov',
   },
 };
 
