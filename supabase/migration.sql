@@ -14,9 +14,9 @@ CREATE TABLE IF NOT EXISTS entries (
   self_harm_behavior  BOOLEAN,
   substances          BOOLEAN,
 
-  -- Thoughts (intensity 0-5)
-  suicidal_thoughts   SMALLINT CHECK (suicidal_thoughts BETWEEN 0 AND 5),
-  self_harm_thoughts  SMALLINT CHECK (self_harm_thoughts BETWEEN 0 AND 5),
+  -- Thoughts (yes/no)
+  suicidal_thoughts   BOOLEAN,
+  self_harm_thoughts  BOOLEAN,
 
   -- Emotions (intensity 0-5)
   guilt       SMALLINT CHECK (guilt    BETWEEN 0 AND 5),
