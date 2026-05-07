@@ -96,6 +96,8 @@ export interface Translations {
   crisisCall: string;
   crisisUrl: string;
   crisisUrlLabel: string;
+  clearEntry: string;
+  confirmClear: string;
   [key: string]: string | string[];
 }
 

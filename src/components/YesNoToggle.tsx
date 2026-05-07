@@ -17,9 +17,17 @@ export default function YesNoToggle({ value, onChange, yesLabel = 'Yes', noLabel
             onClick={() => onChange(opt)}
             className="px-[18px] py-[7px] rounded-full text-[13px] font-semibold font-body transition-all duration-200 cursor-pointer"
             style={{
-              border: `2px solid ${active ? (isYes ? '#A07A6B' : '#839788') : '#D4C8BC'}`,
-              background: active ? (isYes ? '#F0DDD5' : '#E8F0EA') : 'transparent',
-              color: active ? (isYes ? '#A07A6B' : '#6b7f70') : '#BAA898',
+              border: `2px solid ${
+                active
+                  ? isYes ? '#412234' : '#7AAD7D'
+                  : '#C5E0C6'
+              }`,
+              background: active
+                ? isYes ? '#412234' : '#BDD9BF'
+                : 'transparent',
+              color: active
+                ? isYes ? '#ffffff' : '#2E4052'
+                : '#7AAD7D',
             }}
           >
             {opt ? yesLabel : noLabel}

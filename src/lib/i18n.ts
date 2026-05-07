@@ -9,7 +9,7 @@ export const i18n: Record<Lang, Translations> = {
     behaviors: 'Behaviors',
     behaviorSub: 'Yes / No',
     thoughts: 'Thoughts',
-    thoughtSub: 'Highest intensity today (0–5)',
+    thoughtSub: 'Yes / No',
     emotions: 'Emotions',
     emotionSub: 'Highest intensity today (0–5)',
     suicidalBehavior: 'Suicidal behavior',
@@ -68,6 +68,8 @@ export const i18n: Record<Lang, Translations> = {
     crisisCall: 'Call or text 988',
     crisisUrl: '',
     crisisUrlLabel: '',
+    clearEntry: 'Clear entry',
+    confirmClear: 'Tap again to confirm',
   },
   es: {
     appName: 'SkillCheck',
@@ -77,7 +79,7 @@ export const i18n: Record<Lang, Translations> = {
     behaviors: 'Conductas',
     behaviorSub: 'Sí / No',
     thoughts: 'Pensamientos',
-    thoughtSub: 'Intensidad más alta del día (0–5)',
+    thoughtSub: 'Sí / No',
     emotions: 'Emociones',
     emotionSub: 'Intensidad más alta del día (0–5)',
     suicidalBehavior: 'Conducta suicida',
@@ -136,6 +138,8 @@ export const i18n: Record<Lang, Translations> = {
     crisisCall: 'Llama o envía texto al 988',
     crisisUrl: 'https://lineapas.assmca.pr.gov/home',
     crisisUrlLabel: 'Línea PAS — lineapas.assmca.pr.gov',
+    clearEntry: 'Borrar entrada',
+    confirmClear: 'Toca de nuevo para confirmar',
   },
 };
 
@@ -153,10 +157,10 @@ export const SKILLS: Skill[] = [
 ];
 
 export const EMOTION_STYLE: Record<string, EmotionStyleEntry> = {
-  guilt:   { accent: '#9A8A7A', bg: '#D4C8BC' },
-  shame:   { accent: '#839788', bg: '#a8b8ac' },
-  fear:    { accent: '#7A8FA0', bg: '#E3EFF7' },
-  joy:     { accent: '#C4A44E', bg: '#F5EDD3' },
-  sadness: { accent: '#8FBAD5', bg: '#E3EFF7' },
-  anger:   { accent: '#A07A6B', bg: '#F0DDD5' },
+  guilt:   { accent: '#5C2045', bg: '#F5E0EE' },
+  shame:   { accent: '#412234', bg: '#F0D9E5' },
+  fear:    { accent: '#2E4052', bg: '#E6ECF2' },
+  joy:     { accent: '#8C6500', bg: '#FFF3CC' },
+  sadness: { accent: '#3A5472', bg: '#E0E9F5' },
+  anger:   { accent: '#6B1830', bg: '#F5D5E0' },
 };

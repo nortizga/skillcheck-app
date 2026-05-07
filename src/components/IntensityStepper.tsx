@@ -1,10 +1,12 @@
+const COLOR = '#2E4052';
+const DISABLED = '#C5E0C6';
+
 interface Props {
   value: number | null;
   onChange: (value: number) => void;
-  accent?: string;
 }
 
-export default function IntensityStepper({ value, onChange, accent = '#839788' }: Props) {
+export default function IntensityStepper({ value, onChange }: Props) {
   const v = value ?? 0;
   const dots = [1, 2, 3, 4, 5];
 
@@ -12,9 +14,9 @@ export default function IntensityStepper({ value, onChange, accent = '#839788' }
     width: 36,
     height: 36,
     borderRadius: 10,
-    border: `1.5px solid ${disabled ? '#E2D1B6' : accent}`,
-    background: disabled ? 'transparent' : `${accent}12`,
-    color: disabled ? '#E2D1B6' : accent,
+    border: `1.5px solid ${disabled ? DISABLED : COLOR}`,
+    background: disabled ? 'transparent' : `${COLOR}14`,
+    color: disabled ? DISABLED : COLOR,
     fontSize: 20,
     fontWeight: 700,
     cursor: disabled ? 'default' : 'pointer',
@@ -45,16 +47,13 @@ export default function IntensityStepper({ value, onChange, accent = '#839788' }
             style={{
               width: dot <= v ? 10 : 7,
               height: dot <= v ? 10 : 7,
-              background: dot <= v ? accent : '#E2D1B6',
+              background: dot <= v ? COLOR : DISABLED,
             }}
           />
         ))}
       </div>
 
-      <span
-        className="min-w-[28px] text-center font-extrabold text-xl font-display"
-        style={{ color: accent }}
-      >
+      <span className="min-w-[28px] text-center font-extrabold text-xl font-display" style={{ color: COLOR }}>
         {v}
       </span>
 
