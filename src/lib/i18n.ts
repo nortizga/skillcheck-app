@@ -157,10 +157,10 @@ export const SKILLS: Skill[] = [
 ];
 
 export const EMOTION_STYLE: Record<string, EmotionStyleEntry> = {
-  guilt:   { accent: '#5C2045', bg: '#F5E0EE' },
-  shame:   { accent: '#412234', bg: '#F0D9E5' },
-  fear:    { accent: '#2E4052', bg: '#E6ECF2' },
-  joy:     { accent: '#8C6500', bg: '#FFF3CC' },
-  sadness: { accent: '#3A5472', bg: '#E0E9F5' },
-  anger:   { accent: '#6B1830', bg: '#F5D5E0' },
+  guilt:   { accent: '#5C2045' },
+  shame:   { accent: '#412234' },
+  fear:    { accent: '#2E4052' },
+  joy:     { accent: '#8C6500' },
+  sadness: { accent: '#3A5472' },
+  anger:   { accent: '#6B1830' },
 };

@@ -79,14 +79,14 @@ export default function DiaryPage({
     }
   };
 
-  const handleResetClick = () => {
+  const handleResetClick = async () => {
     if (!confirmReset) {
       setConfirmReset(true);
       resetTimerRef.current = setTimeout(() => setConfirmReset(false), 3000);
     } else {
       if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
       setConfirmReset(false);
-      resetEntry(selectedDate);
+      await resetEntry(selectedDate);
     }
   };
 
@@ -195,6 +195,7 @@ export default function DiaryPage({
               <IntensityStepper
                 value={entry[emo] as number | null}
                 onChange={update(emo) as (v: number) => void}
+                accent={EMOTION_STYLE[emo].accent}
               />
             </div>
           ))}

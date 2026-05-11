@@ -32,7 +32,8 @@ export default function ExportModal({ onExport, onClose, t }: Props) {
 
   return (
     <Dialog open onOpenChange={(open) => !open && onClose()}>
-      <DialogContent>
+      <DialogContent className="bottom-0 top-auto left-0 right-0 translate-x-0 translate-y-0 rounded-t-[24px] max-w-full sm:left-[50%] sm:top-[50%] sm:bottom-auto sm:translate-x-[-50%] sm:translate-y-[-50%] sm:max-w-[380px] sm:rounded-2xl">
+        <div className="w-10 h-1 bg-border rounded-full mx-auto mb-4 sm:hidden" />
         <DialogHeader>
           <DialogTitle>{t.exportRange}</DialogTitle>
         </DialogHeader>

@@ -103,7 +103,6 @@ export interface Translations {
 
 export interface EmotionStyleEntry {
   accent: string;
-  bg: string;
 }
 
 export interface SupabaseEntryRow {

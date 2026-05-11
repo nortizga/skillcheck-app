@@ -136,6 +136,7 @@ export function useEntries(userId: string | undefined): UseEntriesReturn {
 
   const resetEntry = useCallback(
     async (date: string): Promise<SaveResult> => {
+      if (!userId) return { error: 'Not authenticated' };
       const entry = entries[date];
       if (entry?.id) {
         const { error } = await supabase.from('entries').delete().eq('id', entry.id);
@@ -148,7 +149,7 @@ export function useEntries(userId: string | undefined): UseEntriesReturn {
       });
       return { error: null };
     },
-    [entries]
+    [userId, entries]
   );
 
   const getEntriesInRange = useCallback(
