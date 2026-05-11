@@ -4,8 +4,8 @@ A personal DBT (Dialectical Behavior Therapy) diary card web app. Track behavior
 
 ## Stack
 
-- **Vite + React + TypeScript** — fast, type-safe frontend
-- **Tailwind CSS** — utility-first styling with custom palette
+- **Vite + React 18 + TypeScript** — fast, type-safe frontend
+- **Tailwind CSS + shadcn/ui** — utility-first styling with Radix UI primitives
 - **Supabase** — auth + Postgres database with row-level security
 - **jsPDF** — client-side PDF generation (portrait, mobile-friendly)
 - **Commitizen** — conventional commit messages
@@ -79,8 +79,8 @@ skillcheck-app/
 │   └── migration.sql          # Database schema + RLS policies
 └── src/
     ├── main.tsx               # Entry point
-    ├── App.tsx                # Auth routing
-    ├── index.css              # Tailwind + base styles
+    ├── App.tsx                # Auth + hash routing
+    ├── index.css              # Tailwind + CSS variables
     ├── types/
     │   └── index.ts           # Shared TypeScript types
     ├── hooks/
@@ -90,8 +90,10 @@ skillcheck-app/
     │   ├── supabase.ts        # Supabase client
     │   ├── i18n.ts            # EN/ES translations + skills + emotion styles
     │   ├── dates.ts           # Date utilities
-    │   └── exportPDF.ts       # PDF generation with jsPDF
+    │   ├── exportPDF.ts       # PDF generation with jsPDF
+    │   └── utils.ts           # cn() class merging utility
     ├── components/
+    │   ├── ui/                # shadcn/ui primitives (button, input, card, …)
     │   ├── Header.tsx
     │   ├── WeekDots.tsx
     │   ├── Section.tsx
@@ -101,18 +103,19 @@ skillcheck-app/
     │   └── ExportModal.tsx
     └── pages/
         ├── LoginPage.tsx
-        └── DiaryPage.tsx
+        ├── DiaryPage.tsx
+        ├── PrivacyPage.tsx
+        └── TermsPage.tsx
 ```
 
 ## Color Palette
 
-| Color | Hex | Usage |
+| Token | Hex | Usage |
 |-------|-----|-------|
-| Black | `#000000` | Header, text, primary buttons |
-| Sage | `#839788` | Accents, active states, links |
-| Cream | `#EEE0CB` | Backgrounds, highlights |
-| Taupe | `#BAA898` | Muted text, borders |
-| Soft Blue | `#BFD7EA` | Emotion accents (fear, sadness) |
+| `brand-navy` | `#2E4052` | Header, headings, primary text |
+| `brand-sage` | `#BDD9BF` | Selected states, skill chips |
+| `brand-amber` | `#FFC857` | Save button, week dot highlight |
+| `brand-plum` | `#412234` | Destructive / "Yes" on behavior toggles |
 
 ## Features
 
