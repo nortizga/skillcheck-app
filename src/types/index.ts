@@ -96,12 +96,13 @@ export interface Translations {
   crisisCall: string;
   crisisUrl: string;
   crisisUrlLabel: string;
+  clearEntry: string;
+  confirmClear: string;
   [key: string]: string | string[];
 }
 
 export interface EmotionStyleEntry {
   accent: string;
-  bg: string;
 }
 
 export interface SupabaseEntryRow {

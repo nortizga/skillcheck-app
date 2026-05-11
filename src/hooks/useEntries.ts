@@ -14,6 +14,7 @@ interface UseEntriesReturn {
   updateField: (date: string, field: string, value: unknown) => void;
   toggleSkill: (date: string, skillId: string) => void;
   saveEntry: (date: string) => Promise<SaveResult>;
+  resetEntry: (date: string) => Promise<SaveResult>;
   getEntriesInRange: (from: string, to: string) => EntriesMap;
 }
 
@@ -133,6 +134,24 @@ export function useEntries(userId: string | undefined): UseEntriesReturn {
     [userId, entries]
   );
 
+  const resetEntry = useCallback(
+    async (date: string): Promise<SaveResult> => {
+      if (!userId) return { error: 'Not authenticated' };
+      const entry = entries[date];
+      if (entry?.id) {
+        const { error } = await supabase.from('entries').delete().eq('id', entry.id);
+        if (error) return { error: error.message };
+      }
+      setEntries((prev) => {
+        const next = { ...prev };
+        delete next[date];
+        return next;
+      });
+      return { error: null };
+    },
+    [userId, entries]
+  );
+
   const getEntriesInRange = useCallback(
     (from: string, to: string): EntriesMap => {
       const result: EntriesMap = {};
@@ -147,5 +166,5 @@ export function useEntries(userId: string | undefined): UseEntriesReturn {
     [entries]
   );
 
-  return { entries, loading, saving, updateField, toggleSkill, saveEntry, getEntriesInRange };
+  return { entries, loading, saving, updateField, toggleSkill, saveEntry, resetEntry, getEntriesInRange };
 }

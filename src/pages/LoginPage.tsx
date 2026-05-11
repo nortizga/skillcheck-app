@@ -1,5 +1,9 @@
 import { useState, type FormEvent } from 'react';
 import { i18n } from '../lib/i18n';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent } from '@/components/ui/card';
 import type { Lang } from '../types';
 import type { AuthResult } from '../hooks/useAuth';
 
@@ -45,69 +49,85 @@ export default function LoginPage({ onAuth }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-brand-cream-light flex items-center justify-center p-5 font-body">
-      <button
+    <div className="min-h-screen bg-background flex items-center justify-center p-5 font-body">
+      <Button
+        variant="outline"
+        size="sm"
         onClick={switchLang}
-        className="fixed top-4 right-4 z-50 bg-brand-black/[0.06] border border-brand-cream-dark text-brand-taupe rounded-full px-3.5 py-1.5 cursor-pointer font-bold text-[13px] font-body"
+        className="fixed top-4 right-4 z-50 rounded-full font-bold text-[13px] font-body"
       >
         {t.langSwitch}
-      </button>
+      </Button>
+
       <div className="w-full max-w-[380px]">
-        <div className="mb-10">
-          <h1 className="text-[40px] font-display font-bold text-brand-black tracking-tight m-0 text-center">
+        <div className="mb-10 text-center">
+          <h1 className="text-[40px] font-display font-bold text-brand-navy tracking-tight m-0">
             SkillCheck
           </h1>
+          <p className="text-muted-foreground text-sm mt-1 font-body">
+            {t.loginTagline}
+          </p>
         </div>
 
-        <div className="bg-white rounded-2xl p-7 border border-brand-cream-dark shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="text-xs font-bold text-brand-taupe block mb-1.5 uppercase tracking-wider">
-                {t.email}
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full p-3 rounded-[10px] border border-brand-cream-dark text-[15px] font-body bg-brand-cream-light box-border outline-none focus:border-brand-sage transition-colors"
-                placeholder="you@email.com"
-              />
-            </div>
-
-            <div className="mb-6">
-              <label className="text-xs font-bold text-brand-taupe block mb-1.5 uppercase tracking-wider">
-                {t.password}
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={6}
-                className="w-full p-3 rounded-[10px] border border-brand-cream-dark text-[15px] font-body bg-brand-cream-light box-border outline-none focus:border-brand-sage transition-colors"
-                placeholder="••••••••"
-              />
-            </div>
-
-            {error && (
-              <div className="mb-4 p-3 rounded-[10px] bg-[#F0DDD5] text-[#A07A6B] text-sm font-semibold text-center">
-                {error}
+        <Card>
+          <CardContent className="pt-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-1.5">
+                <Label htmlFor="email">{t.email}</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="you@email.com"
+                />
               </div>
-            )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full p-4 rounded-[14px] border-none bg-brand-black text-brand-cream text-base font-bold font-display tracking-wide cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-all duration-300 disabled:opacity-60"
-            >
-              {loading ? '...' : t.login}
-            </button>
-          </form>
-        </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="password">{t.password}</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={6}
+                  placeholder="••••••••"
+                />
+              </div>
+
+              {error && (
+                <div className="p-3 rounded-lg bg-destructive/10 text-destructive text-sm font-semibold text-center border border-destructive/20">
+                  {error}
+                </div>
+              )}
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-brand-navy hover:bg-brand-navy/90 text-white font-bold font-display tracking-wide rounded-[14px] h-12 text-base mt-2"
+              >
+                {loading ? '...' : t.login}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
 
         <div className="mt-8 text-center px-2">
-          <p className="text-xs text-brand-taupe leading-relaxed m-0">{t.toolNote}</p>
+          <p className="text-xs text-muted-foreground leading-relaxed m-0 font-body">{t.toolNote}</p>
+        </div>
+
+        <div className="mt-6 text-center">
+          <p className="text-xs text-muted-foreground/70 font-body">
+            <a href="#/terms" className="underline hover:text-brand-navy transition-colors">
+              Terms of Service
+            </a>
+            {' · '}
+            <a href="#/privacy" className="underline hover:text-brand-navy transition-colors">
+              Privacy Policy
+            </a>
+          </p>
         </div>
       </div>
     </div>

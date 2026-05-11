@@ -2,11 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* Page background: very light sage tint */
+    --background: 124 27% 96%;
+    --foreground: 210 28% 25%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 28% 25%;
+
+    /* Navy as primary */
+    --primary: 210 28% 25%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Sage as secondary */
+    --secondary: 124 27% 80%;
+    --secondary-foreground: 210 28% 25%;
+
+    --muted: 124 20% 93%;
+    --muted-foreground: 210 15% 48%;
+
+    /* Amber as accent */
+    --accent: 40 100% 67%;
+    --accent-foreground: 210 28% 25%;
+
+    /* Plum as destructive */
+    --destructive: 325 31% 19%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 124 22% 87%;
+    --input: 124 22% 87%;
+    --ring: 40 100% 67%;
+    --radius: 0.75rem;
+  }
+}
+
 body {
   margin: 0;
-  background: #F7F0E3;
+  background: hsl(var(--background));
   font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
-  color: #000;
+  color: hsl(var(--foreground));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -18,7 +53,7 @@ body {
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #839788;
+  outline: 2px solid #BDD9BF;
   outline-offset: 2px;
 }
 

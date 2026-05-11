@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useRef } from 'react';
 import { todayKey, parseDate, isFuture, defaultEntry } from '../lib/dates';
 import { i18n, SKILLS, EMOTION_STYLE } from '../lib/i18n';
 import { exportPDF } from '../lib/exportPDF';
@@ -9,6 +9,8 @@ import IntensityStepper from '../components/IntensityStepper';
 import YesNoToggle from '../components/YesNoToggle';
 import SkillChip from '../components/SkillChip';
 import ExportModal from '../components/ExportModal';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import type { EntriesMap, Lang } from '../types';
 import type { User } from '@supabase/supabase-js';
 
@@ -19,6 +21,7 @@ interface Props {
   updateField: (date: string, field: string, value: unknown) => void;
   toggleSkill: (date: string, skillId: string) => void;
   saveEntry: (date: string) => Promise<{ error: string | null }>;
+  resetEntry: (date: string) => Promise<{ error: string | null }>;
   saving: boolean;
 }
 
@@ -28,6 +31,7 @@ export default function DiaryPage({
   updateField,
   toggleSkill,
   saveEntry,
+  resetEntry,
   saving,
 }: Props) {
   const [lang, setLang] = useState<Lang>(
@@ -36,6 +40,8 @@ export default function DiaryPage({
   const [selectedDate, setSelectedDate] = useState(todayKey());
   const [showExport, setShowExport] = useState(false);
   const [saveFlash, setSaveFlash] = useState(false);
+  const [confirmReset, setConfirmReset] = useState(false);
+  const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const t = i18n[lang];
   const entry = entries[selectedDate] || defaultEntry();
@@ -73,6 +79,17 @@ export default function DiaryPage({
     }
   };
 
+  const handleResetClick = async () => {
+    if (!confirmReset) {
+      setConfirmReset(true);
+      resetTimerRef.current = setTimeout(() => setConfirmReset(false), 3000);
+    } else {
+      if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+      setConfirmReset(false);
+      await resetEntry(selectedDate);
+    }
+  };
+
   const handleExport = (from: string, to: string) => {
     exportPDF(entries, from, to, lang);
     setShowExport(false);
@@ -87,39 +104,42 @@ export default function DiaryPage({
     ['substances', t.substances as string],
   ];
 
-
   const emotionKeys = ['guilt', 'shame', 'fear', 'joy', 'sadness', 'anger'] as const;
 
   return (
-    <div className="min-h-screen bg-brand-cream-light font-body">
+    <div className="min-h-screen bg-background font-body">
       <Header t={t} onSwitchLang={switchLang} onExport={() => setShowExport(true)} onSignOut={signOut} />
 
       <div className="max-w-[520px] mx-auto px-4 pt-4 pb-24">
         {/* Date nav */}
         <div className="flex items-center justify-between mb-3">
-          <button
+          <Button
+            variant="outline"
+            size="icon"
             onClick={() => navigateDay(-1)}
             aria-label={t.previousDay as string}
-            className="bg-white border border-brand-cream-dark rounded-[10px] w-10 h-10 cursor-pointer text-lg text-brand-taupe-dark flex items-center justify-center"
+            className="rounded-[10px] text-lg text-muted-foreground"
           >
             ‹
-          </button>
+          </Button>
           <div className="text-center">
-            <div className="text-[19px] font-bold text-brand-black font-display">{formattedDate}</div>
+            <div className="text-[19px] font-bold text-brand-navy font-display">{formattedDate}</div>
             {isToday && (
-              <span className="text-[11px] font-bold text-brand-sage uppercase tracking-widest font-body">
+              <span className="text-[11px] font-bold text-brand-sage-dark uppercase tracking-widest font-body">
                 {t.today}
               </span>
             )}
           </div>
-          <button
+          <Button
+            variant="outline"
+            size="icon"
             onClick={() => navigateDay(1)}
             disabled={nextDayFuture}
             aria-label={t.nextDay as string}
-            className="bg-white border border-brand-cream-dark rounded-[10px] w-10 h-10 cursor-pointer text-lg text-brand-taupe-dark flex items-center justify-center disabled:opacity-25"
+            className="rounded-[10px] text-lg text-muted-foreground"
           >
             ›
-          </button>
+          </Button>
         </div>
 
         <WeekDots entries={entries} selectedDate={selectedDate} onSelect={setSelectedDate} dayLabels={t.dayLabels as string[]} />
@@ -130,9 +150,9 @@ export default function DiaryPage({
             <div
               key={field}
               className="flex justify-between items-center py-3"
-              style={{ borderBottom: i < behaviorRows.length - 1 ? '1px solid #F7F0E3' : 'none' }}
+              style={{ borderBottom: i < behaviorRows.length - 1 ? '1px solid hsl(var(--border))' : 'none' }}
             >
-              <span className="text-sm text-brand-black/80 font-body font-medium">{label}</span>
+              <span className="text-sm text-foreground/80 font-body font-medium">{label}</span>
               <YesNoToggle
                 value={entry[field as keyof typeof entry] as boolean | null}
                 onChange={update(field) as (v: boolean) => void}
@@ -145,8 +165,8 @@ export default function DiaryPage({
 
         {/* Thoughts */}
         <Section title={t.thoughts as string} subtitle={t.thoughtSub as string} icon="💭">
-          <div className="flex justify-between items-center py-3" style={{ borderBottom: '1px solid #F7F0E3' }}>
-            <span className="text-sm text-brand-black/80 font-body font-medium">{t.suicidalThoughts as string}</span>
+          <div className="flex justify-between items-center py-3" style={{ borderBottom: '1px solid hsl(var(--border))' }}>
+            <span className="text-sm text-foreground/80 font-body font-medium">{t.suicidalThoughts as string}</span>
             <YesNoToggle
               value={entry.suicidal_thoughts}
               onChange={update('suicidal_thoughts') as (v: boolean) => void}
@@ -155,7 +175,7 @@ export default function DiaryPage({
             />
           </div>
           <div className="flex justify-between items-center py-3">
-            <span className="text-sm text-brand-black/80 font-body font-medium">{t.selfHarmThoughts as string}</span>
+            <span className="text-sm text-foreground/80 font-body font-medium">{t.selfHarmThoughts as string}</span>
             <YesNoToggle
               value={entry.self_harm_thoughts}
               onChange={update('self_harm_thoughts') as (v: boolean) => void}
@@ -168,7 +188,7 @@ export default function DiaryPage({
         {/* Emotions */}
         <Section title={t.emotions as string} subtitle={t.emotionSub as string} icon="🌊">
           {emotionKeys.map((emo, i) => (
-            <div key={emo} className="py-2.5" style={{ borderTop: i > 0 ? '1px solid #F7F0E3' : 'none' }}>
+            <div key={emo} className="py-2.5" style={{ borderTop: i > 0 ? '1px solid hsl(var(--border))' : 'none' }}>
               <label className="text-sm font-semibold block mb-2.5 font-body" style={{ color: EMOTION_STYLE[emo].accent }}>
                 {t[emo] as string}
               </label>
@@ -192,29 +212,46 @@ export default function DiaryPage({
 
         {/* Notes */}
         <Section title={t.notes as string} subtitle={t.notesSub as string} icon="📝">
-          <textarea
+          <Textarea
             value={entry.notes || ''}
             onChange={(e) => updateField(selectedDate, 'notes', e.target.value)}
             placeholder={t.notesPlaceholder as string}
             rows={4}
-            className="w-full border border-brand-cream-dark rounded-xl p-3.5 text-sm font-body bg-brand-cream-light text-brand-black resize-y outline-none box-border focus:border-brand-sage transition-colors"
+            className="font-body text-sm"
           />
         </Section>
 
         {/* Save */}
-        <button
+        <Button
           onClick={handleSave}
           disabled={saving}
-          className="w-full p-4 rounded-[14px] border-none text-brand-cream text-base font-bold font-display tracking-wide cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-all duration-300 disabled:opacity-60"
-          style={{ background: saveFlash ? '#839788' : '#000' }}
+          className="w-full h-14 rounded-[14px] text-base font-bold font-display tracking-wide shadow-md transition-all duration-300"
+          style={{
+            background: saveFlash ? '#BDD9BF' : '#FFC857',
+            color: '#2E4052',
+            border: 'none',
+          }}
         >
           {saveFlash ? t.saved : saving ? '...' : t.save}
-        </button>
+        </Button>
+
+        {/* Clear entry */}
+        <Button
+          variant="ghost"
+          onClick={handleResetClick}
+          className="w-full mt-2 h-10 rounded-[14px] text-sm font-body transition-all duration-200"
+          style={{
+            color: confirmReset ? '#412234' : '#7AAD7D',
+            border: confirmReset ? '1.5px solid #412234' : '1.5px solid transparent',
+          }}
+        >
+          {confirmReset ? t.confirmClear : t.clearEntry}
+        </Button>
 
         {/* Crisis */}
-        <div className="mt-7 p-4 rounded-xl bg-white border border-brand-cream-dark text-center">
-          <p className="text-xs text-brand-taupe font-body m-0">{t.crisisText}</p>
-          <p className="text-[13px] font-bold text-brand-sage font-body mt-1 mb-0">
+        <div className="mt-5 p-4 rounded-xl bg-card border border-border text-center">
+          <p className="text-xs text-muted-foreground font-body m-0">{t.crisisText}</p>
+          <p className="text-[13px] font-bold text-brand-navy font-body mt-1 mb-0">
             {t.crisisLine} — {t.crisisCall}
           </p>
           {t.crisisUrl && (
@@ -222,7 +259,7 @@ export default function DiaryPage({
               href={t.crisisUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[12px] text-brand-sage font-body mt-1 block underline"
+              className="text-[12px] text-brand-navy-light font-body mt-1 block underline"
             >
               {t.crisisUrlLabel}
             </a>
