@@ -6,6 +6,8 @@ A personal DBT (Dialectical Behavior Therapy) diary card web app. Track behavior
 
 - **Vite + React + TypeScript** — fast, type-safe frontend
 - **Tailwind CSS** — utility-first styling with custom palette
+- **shadcn/ui + Radix UI** — accessible, composable UI components
+- **lucide-react** — icon library
 - **Supabase** — auth + Postgres database with row-level security
 - **jsPDF** — client-side PDF generation (portrait, mobile-friendly)
 - **Commitizen** — conventional commit messages
@@ -90,8 +92,10 @@ skillcheck-app/
     │   ├── supabase.ts        # Supabase client
     │   ├── i18n.ts            # EN/ES translations + skills + emotion styles
     │   ├── dates.ts           # Date utilities
+    │   ├── utils.ts           # cn() helper for Tailwind class merging
     │   └── exportPDF.ts       # PDF generation with jsPDF
     ├── components/
+    │   ├── ui/                    # shadcn/ui primitives (button, card, dialog, …)
     │   ├── Header.tsx
     │   ├── WeekDots.tsx
     │   ├── Section.tsx
@@ -101,7 +105,9 @@ skillcheck-app/
     │   └── ExportModal.tsx
     └── pages/
         ├── LoginPage.tsx
-        └── DiaryPage.tsx
+        ├── DiaryPage.tsx
+        ├── PrivacyPage.tsx
+        └── TermsPage.tsx
 ```
 
 ## Color Palette
@@ -126,6 +132,7 @@ skillcheck-app/
 - **Auth** — email/password via Supabase
 - **Row-Level Security** — each user can only see their own data
 - **Crisis resources** — 988 Suicide & Crisis Lifeline always visible; Línea PAS shown in Spanish
+- **Privacy & Terms pages** — linked from the login screen
 
 ## License
 
