@@ -1,139 +1,80 @@
 # SkillCheck
 
-A personal DBT (Dialectical Behavior Therapy) diary card web app. Track behaviors, thoughts, emotions, and skills daily — with bilingual support (EN/ES) and PDF export.
+SkillCheck is a personal DBT (Dialectical Behavior Therapy) diary card app that I built for my own mental health tracking and reflection.
 
-## Stack
+I open-sourced it in case it’s useful for others who follow DBT practices and want a simple, customizable way to track thoughts, emotions, behaviors, and skills.
 
-- **Vite + React + TypeScript** — fast, type-safe frontend
-- **Tailwind CSS** — utility-first styling with custom palette
-- **shadcn/ui + Radix UI** — accessible, composable UI components
-- **lucide-react** — icon library
-- **Supabase** — auth + Postgres database with row-level security
-- **jsPDF** — client-side PDF generation (portrait, mobile-friendly)
-- **Commitizen** — conventional commit messages
+## 🧠 Why I built this
 
-## Quick Start
+I wanted a simple, structured way to track my own DBT practice without relying on complex apps or paper worksheets.
 
-### 1. Clone & install
+Over time, it also became a space where I could explore full-stack development, cloud infrastructure, and UI design in a real, meaningful context.
 
-```bash
-git clone <your-repo>
-cd skillcheck-app
-npm install
-```
 
-### 2. Set up Supabase
+## 🚀 What it does
 
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Go to **SQL Editor** and run the contents of `supabase/migration.sql`
-3. Go to **Project Settings → API Keys** and copy your:
-   - Project URL
-   - Publishable key
+SkillCheck lets you:
 
-### 3. Configure environment
+- Track daily emotions, thoughts, and behaviors
+- Log DBT skills used throughout the day
+- Write short reflections and notes
+- Review patterns over time through weekly navigation
+- Export entries as PDF diary cards
+- Switch between English and Spanish
 
-```bash
-cp .env.example .env
-```
+## 🧩 Core Features
 
-Edit `.env` with your Supabase credentials:
+- Daily DBT diary card (structured tracking)
+- Skills logging (based on DBT framework)
+- Emotion intensity tracking (0–5 scale)
+- Weekly progress view
+- Bilingual support (EN / ES)
+- PDF export for personal or therapy use
+- Authentication via Supabase
+- Row-level security (each user only sees their own data)
+- Built-in crisis resources (988 / Línea PAS)
 
-```
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
-```
+## 🏗️ Tech Stack
 
-### 4. Run locally
+**Frontend**
+- React + TypeScript (Vite)
+- Tailwind CSS
+- shadcn/ui + Radix UI
 
-```bash
-npm run dev
-```
+**Backend**
+- Supabase (PostgreSQL + Auth + RLS)
 
-Open [http://localhost:5173](http://localhost:5173)
+**Utilities**
+- jsPDF (PDF export)
+- Custom i18n system
+- Commitizen (conventional commits)
 
-### 5. Build for production
+## 🧠 Architecture Notes
 
-```bash
-npm run build
-```
+- Client-first architecture with Supabase backend
+- Row-level security for data isolation
+- Component-driven UI structure
+- Lightweight, mobile-friendly design
+- Focus on simplicity and maintainability
 
-Deploy the `dist/` folder to Vercel, Netlify, or any static host.
+## 📌 Design Philosophy
 
-## Commits
+- Keep mental health tracking simple, not overwhelming
+- Reduce friction in daily reflection
+- Make the system easy to customize or extend
+- Prioritize privacy and user ownership of data
 
-This project uses [Commitizen](https://commitizen.github.io/cz-cli/) for conventional commits. Instead of `git commit`, run:
+## 📊 Status
 
-```bash
-npm run commit
-```
+This is an active personal project I continue to improve over time.
 
-## Project Structure
+It’s also used as a space to explore:
+- Full-stack development
+- Backend design with Supabase/Postgres
+- UX design for sensitive mental health workflows
+- Real-world product thinking
 
-```
-skillcheck-app/
-├── index.html
-├── package.json
-├── vite.config.js
-├── tailwind.config.js
-├── postcss.config.js
-├── .env.example
-├── supabase/
-│   └── migration.sql          # Database schema + RLS policies
-└── src/
-    ├── main.tsx               # Entry point
-    ├── App.tsx                # Auth routing
-    ├── index.css              # Tailwind + base styles
-    ├── types/
-    │   └── index.ts           # Shared TypeScript types
-    ├── hooks/
-    │   ├── useAuth.ts         # Supabase auth hook
-    │   └── useEntries.ts      # CRUD hook for diary entries
-    ├── lib/
-    │   ├── supabase.ts        # Supabase client
-    │   ├── i18n.ts            # EN/ES translations + skills + emotion styles
-    │   ├── dates.ts           # Date utilities
-    │   ├── utils.ts           # cn() helper for Tailwind class merging
-    │   └── exportPDF.ts       # PDF generation with jsPDF
-    ├── components/
-    │   ├── ui/                    # shadcn/ui primitives (button, card, dialog, …)
-    │   ├── Header.tsx
-    │   ├── WeekDots.tsx
-    │   ├── Section.tsx
-    │   ├── IntensityStepper.tsx
-    │   ├── YesNoToggle.tsx
-    │   ├── SkillChip.tsx
-    │   └── ExportModal.tsx
-    └── pages/
-        ├── LoginPage.tsx
-        ├── DiaryPage.tsx
-        ├── PrivacyPage.tsx
-        └── TermsPage.tsx
-```
+## 🧑‍💻 Author
 
-## Color Palette
-
-| Color | Hex | Usage |
-|-------|-----|-------|
-| Black | `#000000` | Header, text, primary buttons |
-| Sage | `#839788` | Accents, active states, links |
-| Cream | `#EEE0CB` | Backgrounds, highlights |
-| Taupe | `#BAA898` | Muted text, borders |
-| Soft Blue | `#BFD7EA` | Emotion accents (fear, sadness) |
-
-## Features
-
-- **Daily diary card** — behaviors (yes/no), thoughts (yes/no), emotions (0–5 intensity)
-- **Skills tracker** — tap to log DBT skills used each day
-- **Notes** — free-form journaling per entry
-- **Week view** — dots show which days have entries
-- **Date navigation** — go back to fill in past days (no future dates)
-- **Bilingual** — full English/Spanish toggle, language persisted across sessions
-- **PDF export** — portrait layout optimized for mobile, one card per day
-- **Auth** — email/password via Supabase
-- **Row-Level Security** — each user can only see their own data
-- **Crisis resources** — 988 Suicide & Crisis Lifeline always visible; Línea PAS shown in Spanish
-- **Privacy & Terms pages** — linked from the login screen
-
-## License
-
-Private — for personal use.
+Built by Nicole Ortiz  
+Software Engineer focused on backend systems, cloud infrastructure, and AI-assisted development
