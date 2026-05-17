@@ -35,8 +35,8 @@ export default function Header({ t, onSwitchLang, onExport, onSignOut, onNavigat
             </p>
           </div>
 
-          {/* Desktop nav — hidden on mobile */}
-          <div className="hidden sm:flex gap-2 items-center">
+          {/* Desktop nav — hidden on mobile/tablet */}
+          <div className="hidden lg:flex gap-2 items-center">
             <Button
               variant="ghost"
               size="sm"
@@ -74,8 +74,8 @@ export default function Header({ t, onSwitchLang, onExport, onSignOut, onNavigat
             )}
           </div>
 
-          {/* Mobile nav — hamburger dropdown */}
-          <div className="flex sm:hidden items-center gap-2">
+          {/* Mobile/tablet nav — hamburger dropdown */}
+          <div className="flex lg:hidden items-center gap-2">
             <Button
               variant="ghost"
               size="sm"
