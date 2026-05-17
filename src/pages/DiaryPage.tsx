@@ -108,7 +108,13 @@ export default function DiaryPage({
 
   return (
     <div className="min-h-screen bg-background font-body">
-      <Header t={t} onSwitchLang={switchLang} onExport={() => setShowExport(true)} onSignOut={signOut} />
+      <Header
+        t={t}
+        onSwitchLang={switchLang}
+        onExport={() => setShowExport(true)}
+        onSignOut={signOut}
+        onNavigateSkills={() => { window.location.hash = '#/skills'; }}
+      />
 
       <div className="max-w-[520px] mx-auto px-4 pt-4 pb-24">
         {/* Date nav */}

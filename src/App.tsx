@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import DiaryPage from './pages/DiaryPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
+import SkillsPage from './pages/SkillsPage';
 
 function useHashRoute() {
   const [hash, setHash] = useState(() => window.location.hash);
@@ -36,6 +37,7 @@ export default function App() {
 
   if (hash === '#/terms') return <TermsPage onBack={goBack} />;
   if (hash === '#/privacy') return <PrivacyPage onBack={goBack} />;
+  if (hash === '#/skills') return <SkillsPage onBack={goBack} />;
 
   if (authLoading) {
     return (

@@ -64,9 +64,6 @@ export default function LoginPage({ onAuth }: Props) {
           <h1 className="text-[40px] font-display font-bold text-brand-navy tracking-tight m-0">
             SkillCheck
           </h1>
-          <p className="text-muted-foreground text-sm mt-1 font-body">
-            {t.loginTagline}
-          </p>
         </div>
 
         <Card>
@@ -121,11 +118,11 @@ export default function LoginPage({ onAuth }: Props) {
         <div className="mt-6 text-center">
           <p className="text-xs text-muted-foreground/70 font-body">
             <a href="#/terms" className="underline hover:text-brand-navy transition-colors">
-              Terms of Service
+              {t.terms}
             </a>
             {' · '}
             <a href="#/privacy" className="underline hover:text-brand-navy transition-colors">
-              Privacy Policy
+              {t.privacy}
             </a>
           </p>
         </div>

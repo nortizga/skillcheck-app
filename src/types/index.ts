@@ -78,7 +78,6 @@ export interface Translations {
   monthNames: string[];
   toolNote: string;
   login: string;
-  loginTagline: string;
   signUp: string;
   signUpTagline: string;
   email: string;
@@ -98,6 +97,9 @@ export interface Translations {
   crisisUrlLabel: string;
   clearEntry: string;
   confirmClear: string;
+  skillsRef: string;
+  terms: string;
+  privacy: string;
   [key: string]: string | string[];
 }
 
