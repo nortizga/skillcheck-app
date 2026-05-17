@@ -1,4 +1,12 @@
+import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import type { Translations } from '../types';
 
 interface Props {
@@ -26,7 +34,9 @@ export default function Header({ t, onSwitchLang, onExport, onSignOut, onNavigat
               {t.tagline}
             </p>
           </div>
-          <div className="flex gap-2 items-center">
+
+          {/* Desktop nav — hidden on mobile */}
+          <div className="hidden sm:flex gap-2 items-center">
             <Button
               variant="ghost"
               size="sm"
@@ -62,6 +72,62 @@ export default function Header({ t, onSwitchLang, onExport, onSignOut, onNavigat
                 {t.logout}
               </Button>
             )}
+          </div>
+
+          {/* Mobile nav — hamburger dropdown */}
+          <div className="flex sm:hidden items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onSwitchLang}
+              className="border border-white/20 text-white hover:bg-white/10 hover:text-white rounded-full font-bold text-[13px] font-body"
+            >
+              {t.langSwitch}
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="border border-white/20 text-white hover:bg-white/10 hover:text-white rounded-full p-2"
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="bg-brand-navy border-white/20 text-white min-w-[160px]"
+              >
+                <DropdownMenuItem
+                  onClick={onExport}
+                  className="font-bold text-[13px] font-body text-brand-amber focus:bg-white/10 focus:text-brand-amber cursor-pointer"
+                >
+                  PDF
+                </DropdownMenuItem>
+                {onNavigateSkills && (
+                  <>
+                    <DropdownMenuSeparator className="bg-white/10" />
+                    <DropdownMenuItem
+                      onClick={onNavigateSkills}
+                      className="font-bold text-[13px] font-body uppercase text-white focus:bg-white/10 focus:text-white cursor-pointer"
+                    >
+                      {t.skillsRef}
+                    </DropdownMenuItem>
+                  </>
+                )}
+                {onSignOut && (
+                  <>
+                    <DropdownMenuSeparator className="bg-white/10" />
+                    <DropdownMenuItem
+                      onClick={onSignOut}
+                      className="font-bold text-[13px] font-body uppercase text-white focus:bg-white/10 focus:text-white cursor-pointer"
+                    >
+                      {t.logout}
+                    </DropdownMenuItem>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>

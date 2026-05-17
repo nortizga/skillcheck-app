@@ -1,7 +1,10 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { i18n } from './i18n';
+import { i18n, SKILLS } from './i18n';
 import type { EntriesMap, Lang } from '../types';
+
+const skillLabel = (id: string, lang: Lang): string =>
+  SKILLS.find((s) => s.id === id)?.[lang] ?? id;
 
 export function exportPDF(entries: EntriesMap, from: string, to: string, lang: Lang): void {
   const t = i18n[lang];
@@ -14,7 +17,7 @@ export function exportPDF(entries: EntriesMap, from: string, to: string, lang: L
 
   const bool = (v: unknown) =>
     v === true ? (t.yes as string) : v === false ? (t.no as string) : '—';
-  const num = (v: unknown) => (v != null ? String(v) : '—');
+  const num = (hasEntry: boolean, v: unknown) => (hasEntry ? String(v ?? 0) : '—');
 
   const isEs = lang === 'es';
 
@@ -82,13 +85,13 @@ export function exportPDF(entries: EntriesMap, from: string, to: string, lang: L
       bool(e?.suicidal_thoughts),
       bool(e?.self_harm_thoughts),
       bool(e?.substances),
-      num(e?.guilt),
-      num(e?.shame),
-      num(e?.fear),
-      num(e?.joy),
-      num(e?.sadness),
-      num(e?.anger),
-      e != null ? String(e.skills?.length ?? 0) : '—',
+      num(e != null, e?.guilt),
+      num(e != null, e?.shame),
+      num(e != null, e?.fear),
+      num(e != null, e?.joy),
+      num(e != null, e?.sadness),
+      num(e != null, e?.anger),
+      e?.skills?.length ? e.skills.map((id) => skillLabel(id, lang)).join(', ') : '—',
       e?.notes || '—',
     ]);
 
@@ -132,8 +135,8 @@ export function exportPDF(entries: EntriesMap, from: string, to: string, lang: L
       9:  { cellWidth: 12 },
       10: { cellWidth: 14 },
       11: { cellWidth: 12 },
-      12: { cellWidth: 14 },
-      13: { cellWidth: 'auto', halign: 'left' },
+      12: { cellWidth: 'auto', halign: 'left' },
+      13: { cellWidth: 40, halign: 'left' },
     },
   });
 
