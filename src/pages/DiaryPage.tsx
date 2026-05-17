@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { todayKey, parseDate, isFuture, defaultEntry } from '../lib/dates';
 import { i18n, SKILLS, EMOTION_STYLE } from '../lib/i18n';
 import { exportPDF } from '../lib/exportPDF';
@@ -23,6 +23,8 @@ interface Props {
   saveEntry: (date: string) => Promise<{ error: string | null }>;
   resetEntry: (date: string) => Promise<{ error: string | null }>;
   saving: boolean;
+  lang: Lang;
+  onSwitchLang: () => void;
 }
 
 export default function DiaryPage({
@@ -33,10 +35,9 @@ export default function DiaryPage({
   saveEntry,
   resetEntry,
   saving,
+  lang,
+  onSwitchLang,
 }: Props) {
-  const [lang, setLang] = useState<Lang>(
-    () => (localStorage.getItem('skillcheck-lang') as Lang) || 'en'
-  );
   const [selectedDate, setSelectedDate] = useState(todayKey());
   const [showExport, setShowExport] = useState(false);
   const [saveFlash, setSaveFlash] = useState(false);
@@ -45,12 +46,6 @@ export default function DiaryPage({
 
   const t = i18n[lang];
   const entry = entries[selectedDate] || defaultEntry();
-
-  const switchLang = useCallback(() => {
-    const next: Lang = lang === 'en' ? 'es' : 'en';
-    setLang(next);
-    localStorage.setItem('skillcheck-lang', next);
-  }, [lang]);
 
   const navigateDay = (dir: number) => {
     const d = parseDate(selectedDate);
@@ -108,7 +103,13 @@ export default function DiaryPage({
 
   return (
     <div className="min-h-screen bg-background font-body">
-      <Header t={t} onSwitchLang={switchLang} onExport={() => setShowExport(true)} onSignOut={signOut} />
+      <Header
+        t={t}
+        onSwitchLang={onSwitchLang}
+        onExport={() => setShowExport(true)}
+        onSignOut={signOut}
+        onNavigateSkills={() => { window.location.hash = '#/skills'; }}
+      />
 
       <div className="max-w-[520px] mx-auto px-4 pt-4 pb-24">
         {/* Date nav */}

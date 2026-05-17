@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from './hooks/useAuth';
 import type { AuthResult } from './hooks/useAuth';
 import { useEntries } from './hooks/useEntries';
@@ -6,6 +6,8 @@ import LoginPage from './pages/LoginPage';
 import DiaryPage from './pages/DiaryPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
+import SkillsPage from './pages/SkillsPage';
+import type { Lang } from './types';
 
 function useHashRoute() {
   const [hash, setHash] = useState(() => window.location.hash);
@@ -27,6 +29,15 @@ export default function App() {
   const { user, loading: authLoading, signIn, signOut } = useAuth();
   const { entries, saving, updateField, toggleSkill, saveEntry, resetEntry } = useEntries(user?.id);
   const { hash, navigate } = useHashRoute();
+  const [lang, setLang] = useState<Lang>(
+    () => (localStorage.getItem('skillcheck-lang') as Lang) || 'en'
+  );
+
+  const switchLang = useCallback(() => {
+    const next: Lang = lang === 'en' ? 'es' : 'en';
+    setLang(next);
+    localStorage.setItem('skillcheck-lang', next);
+  }, [lang]);
 
   const handleAuth = async (email: string, password: string): Promise<AuthResult> => {
     return signIn(email, password);
@@ -36,6 +47,7 @@ export default function App() {
 
   if (hash === '#/terms') return <TermsPage onBack={goBack} />;
   if (hash === '#/privacy') return <PrivacyPage onBack={goBack} />;
+  if (hash === '#/skills') return <SkillsPage onBack={goBack} lang={lang} onSwitchLang={switchLang} />;
 
   if (authLoading) {
     return (
@@ -62,6 +74,8 @@ export default function App() {
       saveEntry={saveEntry}
       resetEntry={resetEntry}
       saving={saving}
+      lang={lang}
+      onSwitchLang={switchLang}
     />
   );
 }

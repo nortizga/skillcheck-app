@@ -88,7 +88,7 @@ export function exportPDF(entries: EntriesMap, from: string, to: string, lang: L
       num(e?.joy),
       num(e?.sadness),
       num(e?.anger),
-      e?.skills?.length ? String(e.skills.length) : '—',
+      e != null ? String(e.skills?.length ?? 0) : '—',
       e?.notes || '—',
     ]);
 

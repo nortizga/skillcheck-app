@@ -6,9 +6,10 @@ interface Props {
   onSwitchLang: () => void;
   onExport: () => void;
   onSignOut?: () => void;
+  onNavigateSkills?: () => void;
 }
 
-export default function Header({ t, onSwitchLang, onExport, onSignOut }: Props) {
+export default function Header({ t, onSwitchLang, onExport, onSignOut, onNavigateSkills }: Props) {
   return (
     <div className="bg-brand-navy px-5 pt-[22px] pb-[18px] text-white relative overflow-hidden">
       <div
@@ -41,12 +42,22 @@ export default function Header({ t, onSwitchLang, onExport, onSignOut }: Props) 
             >
               PDF
             </Button>
+            {onNavigateSkills && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onNavigateSkills}
+                className="border border-white/20 text-white hover:bg-white/10 hover:text-white rounded-full font-bold text-[13px] font-body whitespace-nowrap uppercase"
+              >
+                {t.skillsRef}
+              </Button>
+            )}
             {onSignOut && (
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={onSignOut}
-                className="border border-white/20 text-white hover:bg-white/10 hover:text-white rounded-full font-semibold text-[12px] font-body whitespace-nowrap"
+                className="border border-white/20 text-white hover:bg-white/10 hover:text-white rounded-full font-bold text-[13px] font-body whitespace-nowrap uppercase"
               >
                 {t.logout}
               </Button>
