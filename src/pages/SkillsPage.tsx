@@ -5,7 +5,8 @@ import type { Lang } from '../types';
 
 interface Props {
   onBack: () => void;
-  initialLang?: Lang;
+  lang: Lang;
+  onSwitchLang: () => void;
 }
 
 interface SkillTechnique {
@@ -396,6 +397,7 @@ const UI_TEXT = {
     steps: 'Steps',
     techniques: 'Techniques',
     langSwitch: 'ES',
+    footer: 'SkillCheck · DBT Skills Reference',
   },
   es: {
     title: 'Referencia de Habilidades DBT',
@@ -405,22 +407,14 @@ const UI_TEXT = {
     steps: 'Pasos',
     techniques: 'Técnicas',
     langSwitch: 'EN',
+    footer: 'SkillCheck · Referencia de Habilidades de DBT',
   },
 };
 
-export default function SkillsPage({ onBack, initialLang }: Props) {
-  const [lang, setLang] = useState<Lang>(
-    () => initialLang || (localStorage.getItem('skillcheck-lang') as Lang) || 'en'
-  );
+export default function SkillsPage({ onBack, lang, onSwitchLang }: Props) {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
   const ui = UI_TEXT[lang];
-
-  const toggleLang = () => {
-    const next: Lang = lang === 'en' ? 'es' : 'en';
-    setLang(next);
-    localStorage.setItem('skillcheck-lang', next);
-  };
 
   const filteredContent = activeFilter
     ? SKILL_CONTENT.filter((s) => s.id === activeFilter)
@@ -450,7 +444,7 @@ export default function SkillsPage({ onBack, initialLang }: Props) {
           </div>
           <div className="flex gap-2 items-center">
             <button
-              onClick={toggleLang}
+              onClick={onSwitchLang}
               className="border border-white/20 text-white hover:bg-white/10 rounded-full font-bold text-[13px] font-body px-3 py-1.5"
             >
               {ui.langSwitch}
@@ -537,7 +531,7 @@ export default function SkillsPage({ onBack, initialLang }: Props) {
 
         {/* Footer */}
         <div className="mt-10 pt-6 border-t border-border flex justify-between items-center text-xs text-muted-foreground">
-          <span>SkillCheck · DBT Skills Reference</span>
+          <span>{ui.footer}</span>
           <button
             onClick={onBack}
             className="hover:text-brand-navy transition-colors font-semibold"
