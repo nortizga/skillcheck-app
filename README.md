@@ -2,6 +2,14 @@
 
 A personal DBT (Dialectical Behavior Therapy) diary card web app. Track behaviors, thoughts, emotions, and skills daily — with bilingual support (EN/ES) and PDF export.
 
+## Try the Demo
+
+**[skillcheck-app.vercel.app/#/demo](https://skillcheck-app.vercel.app/#/demo)**
+
+No account required. The demo runs entirely in your browser using pre-seeded sample data — nothing is sent to any server. Your changes are stored locally in your browser’s local storage and can be reset at any time by clearing site data.
+
+> Want to use SkillCheck for real? Self-host your own instance by following the Quick Start guide below.
+
 ## Stack
 
 - **Vite + React + TypeScript** — fast, type-safe frontend
@@ -59,14 +67,6 @@ npm run build
 
 Deploy the `dist/` folder to Vercel, Netlify, or any static host.
 
-## Commits
-
-This project uses [Commitizen](https://commitizen.github.io/cz-cli/) for conventional commits. Instead of `git commit`, run:
-
-```bash
-npm run commit
-```
-
 ## Project Structure
 
 ```
@@ -87,13 +87,15 @@ skillcheck-app/
     │   └── index.ts           # Shared TypeScript types
     ├── hooks/
     │   ├── useAuth.ts         # Supabase auth hook
-    │   └── useEntries.ts      # CRUD hook for diary entries
+    │   ├── useEntries.ts      # CRUD hook for diary entries
+    │   └── useDemoEntries.ts  # localStorage-backed hook for demo mode
     ├── lib/
     │   ├── supabase.ts        # Supabase client
     │   ├── i18n.ts            # EN/ES translations + skills + emotion styles
     │   ├── dates.ts           # Date utilities
     │   ├── utils.ts           # cn() helper for Tailwind class merging
-    │   └── exportPDF.ts       # PDF generation with jsPDF
+    │   ├── exportPDF.ts       # PDF generation with jsPDF
+    │   └── demoData.ts        # Pre-seeded sample entries for demo mode
     ├── components/
     │   ├── ui/                    # shadcn/ui primitives (button, card, dialog, …)
     │   ├── Header.tsx
@@ -106,6 +108,8 @@ skillcheck-app/
     └── pages/
         ├── LoginPage.tsx
         ├── DiaryPage.tsx
+        ├── DemoPage.tsx       # Public demo route (#/demo), no auth required
+        ├── SkillsPage.tsx
         ├── PrivacyPage.tsx
         └── TermsPage.tsx
 ```
