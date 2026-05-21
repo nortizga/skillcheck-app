@@ -54,7 +54,11 @@ export function useDemoEntries() {
   const resetEntry = useCallback(async (date: string) => {
     setEntries((prev) => {
       const next = { ...prev };
-      delete next[date];
+      if (DEMO_SEED[date]) {
+        next[date] = { ...DEMO_SEED[date] };
+      } else {
+        delete next[date];
+      }
       return next;
     });
     return { error: null };
