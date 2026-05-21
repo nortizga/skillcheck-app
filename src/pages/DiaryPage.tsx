@@ -16,7 +16,7 @@ import type { User } from '@supabase/supabase-js';
 
 interface Props {
   user: User;
-  signOut: () => Promise<void>;
+  signOut?: () => Promise<void>;
   entries: EntriesMap;
   updateField: (date: string, field: string, value: unknown) => void;
   toggleSkill: (date: string, skillId: string) => void;
