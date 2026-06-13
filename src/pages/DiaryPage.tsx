@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from 'react';
-import { todayKey, parseDate, isFuture, defaultEntry } from '../lib/dates';
+import { todayKey, parseDate, isFuture, defaultEntry, dateKey } from '../lib/dates';
 import { i18n, SKILLS, EMOTION_STYLE } from '../lib/i18n';
 import { exportPDF } from '../lib/exportPDF';
 import Header from '../components/Header';
@@ -60,7 +60,7 @@ export default function DiaryPage({
   const navigateDay = (dir: number) => {
     const d = parseDate(selectedDate);
     d.setDate(d.getDate() + dir);
-    if (!isFuture(d)) setSelectedDate(d.toISOString().split('T')[0]);
+    if (!isFuture(d)) setSelectedDate(dateKey(d));
   };
 
   const nextDayFuture = useMemo(() => {
