@@ -11,10 +11,12 @@ interface UseEntriesReturn {
   entries: EntriesMap;
   loading: boolean;
   saving: boolean;
+  appointmentDate: string | null;
   updateField: (date: string, field: string, value: unknown) => void;
   toggleSkill: (date: string, skillId: string) => void;
   saveEntry: (date: string) => Promise<SaveResult>;
   resetEntry: (date: string) => Promise<SaveResult>;
+  setAppointment: (date: string | null) => Promise<void>;
   getEntriesInRange: (from: string, to: string) => EntriesMap;
 }
 
@@ -22,6 +24,9 @@ export function useEntries(userId: string | undefined): UseEntriesReturn {
   const [entries, setEntries] = useState<EntriesMap>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [appointmentDate, setAppointmentDate] = useState<string | null>(
+    () => localStorage.getItem('skillcheck-appointment-date')
+  );
 
   useEffect(() => {
     if (!userId) {
@@ -44,6 +49,7 @@ export function useEntries(userId: string | undefined): UseEntriesReturn {
       }
 
       const map: EntriesMap = {};
+      let apptDate: string | null = null;
       (data as SupabaseEntryRow[]).forEach((row) => {
         map[row.entry_date] = {
           id: row.id,
@@ -61,8 +67,15 @@ export function useEntries(userId: string | undefined): UseEntriesReturn {
           skills: row.skills || [],
           notes: row.notes || '',
         };
+        if (row.is_appointment) apptDate = row.entry_date;
       });
       setEntries(map);
+      setAppointmentDate(apptDate);
+      if (apptDate) {
+        localStorage.setItem('skillcheck-appointment-date', apptDate);
+      } else {
+        localStorage.removeItem('skillcheck-appointment-date');
+      }
       setLoading(false);
     };
 
@@ -152,6 +165,37 @@ export function useEntries(userId: string | undefined): UseEntriesReturn {
     [userId, entries]
   );
 
+  const setAppointment = useCallback(
+    async (date: string | null) => {
+      if (!userId) return;
+
+      // Clear old appointment (no-op if that row doesn't exist)
+      if (appointmentDate) {
+        await supabase
+          .from('entries')
+          .update({ is_appointment: false })
+          .eq('user_id', userId)
+          .eq('entry_date', appointmentDate);
+      }
+
+      if (date) {
+        // Upsert to create the row if there's no diary entry yet
+        await supabase
+          .from('entries')
+          .upsert(
+            { user_id: userId, entry_date: date, is_appointment: true },
+            { onConflict: 'user_id,entry_date' }
+          );
+        localStorage.setItem('skillcheck-appointment-date', date);
+      } else {
+        localStorage.removeItem('skillcheck-appointment-date');
+      }
+
+      setAppointmentDate(date);
+    },
+    [userId, appointmentDate]
+  );
+
   const getEntriesInRange = useCallback(
     (from: string, to: string): EntriesMap => {
       const result: EntriesMap = {};
@@ -166,5 +210,5 @@ export function useEntries(userId: string | undefined): UseEntriesReturn {
     [entries]
   );
 
-  return { entries, loading, saving, updateField, toggleSkill, saveEntry, resetEntry, getEntriesInRange };
+  return { entries, loading, saving, appointmentDate, updateField, toggleSkill, saveEntry, resetEntry, setAppointment, getEntriesInRange };
 }

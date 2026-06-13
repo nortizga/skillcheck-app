@@ -111,6 +111,7 @@ export interface SupabaseEntryRow {
   id: string;
   user_id: string;
   entry_date: string;
+  is_appointment: boolean | null;
   suicidal_behavior: boolean | null;
   self_harm_behavior: boolean | null;
   suicidal_thoughts: boolean | null;

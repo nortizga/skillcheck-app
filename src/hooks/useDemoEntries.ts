@@ -64,5 +64,9 @@ export function useDemoEntries() {
     return { error: null };
   }, []);
 
-  return { entries, saving, updateField, toggleSkill, saveEntry, resetEntry };
+  return {
+    entries, saving, updateField, toggleSkill, saveEntry, resetEntry,
+    appointmentDate: null as string | null,
+    setAppointment: async (_date: string | null) => {},
+  };
 }

@@ -4,6 +4,7 @@ import { i18n, SKILLS, EMOTION_STYLE } from '../lib/i18n';
 import { exportPDF } from '../lib/exportPDF';
 import Header from '../components/Header';
 import WeekDots from '../components/WeekDots';
+import DatePickerSheet from '../components/DatePickerSheet';
 import Section from '../components/Section';
 import IntensityStepper from '../components/IntensityStepper';
 import YesNoToggle from '../components/YesNoToggle';
@@ -25,6 +26,8 @@ interface Props {
   saving: boolean;
   lang: Lang;
   onSwitchLang: () => void;
+  appointmentDate: string | null;
+  setAppointment: (date: string | null) => Promise<void>;
 }
 
 export default function DiaryPage({
@@ -37,9 +40,16 @@ export default function DiaryPage({
   saving,
   lang,
   onSwitchLang,
+  appointmentDate,
+  setAppointment,
 }: Props) {
   const [selectedDate, setSelectedDate] = useState(todayKey());
   const [showExport, setShowExport] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const toggleAppointment = () => {
+    setAppointment(appointmentDate === selectedDate ? null : selectedDate);
+  };
+
   const [saveFlash, setSaveFlash] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
   const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -123,14 +133,19 @@ export default function DiaryPage({
           >
             ‹
           </Button>
-          <div className="text-center">
+          <button
+            onPointerDown={(e) => { e.preventDefault(); setShowDatePicker(true); }}
+            className="text-center px-2 py-1 rounded-[10px] transition-colors active:opacity-70"
+            style={{ touchAction: 'manipulation', background: 'transparent', border: 'none', cursor: 'pointer' }}
+            aria-label="Open date picker"
+          >
             <div className="text-[19px] font-bold text-brand-navy font-display">{formattedDate}</div>
             {isToday && (
               <span className="text-[11px] font-bold text-brand-sage-dark uppercase tracking-widest font-body">
                 {t.today}
               </span>
             )}
-          </div>
+          </button>
           <Button
             variant="outline"
             size="icon"
@@ -141,6 +156,24 @@ export default function DiaryPage({
           >
             ›
           </Button>
+        </div>
+
+        {/* Appointment chip */}
+        <div className="flex justify-center mb-3 -mt-1">
+          <button
+            onPointerDown={(e) => { e.preventDefault(); toggleAppointment(); }}
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold font-body transition-all duration-150 active:opacity-70"
+            style={{
+              touchAction: 'manipulation',
+              background: appointmentDate === selectedDate ? '#FFC857' : 'transparent',
+              color: appointmentDate === selectedDate ? '#2E4052' : 'hsl(var(--muted-foreground))',
+              border: appointmentDate === selectedDate ? 'none' : '1.5px dashed hsl(var(--border))',
+              cursor: 'pointer',
+            }}
+            aria-label={appointmentDate === selectedDate ? 'Remove appointment marker' : 'Mark as appointment day'}
+          >
+            <span>{appointmentDate === selectedDate ? '📅 Appointment day' : '+ Appointment day'}</span>
+          </button>
         </div>
 
         <WeekDots entries={entries} selectedDate={selectedDate} onSelect={setSelectedDate} dayLabels={t.dayLabels as string[]} />
@@ -268,7 +301,25 @@ export default function DiaryPage({
         </div>
       </div>
 
-      {showExport && <ExportModal onExport={handleExport} onClose={() => setShowExport(false)} t={t} />}
+      {showExport && (
+        <ExportModal
+          onExport={handleExport}
+          onClose={() => setShowExport(false)}
+          t={t}
+          appointmentDate={appointmentDate ?? undefined}
+        />
+      )}
+      {showDatePicker && (
+        <DatePickerSheet
+          selectedDate={selectedDate}
+          entries={entries}
+          onSelect={setSelectedDate}
+          onClose={() => setShowDatePicker(false)}
+          dayLabels={t.dayLabels as string[]}
+          monthNames={t.monthNames as string[]}
+          appointmentDate={appointmentDate ?? undefined}
+        />
+      )}
     </div>
   );
 }

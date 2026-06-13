@@ -7,7 +7,7 @@ import type { Lang } from '../types';
 const FAKE_USER = { id: 'demo', email: 'demo@example.com' } as User;
 
 export default function DemoPage() {
-  const { entries, saving, updateField, toggleSkill, saveEntry, resetEntry } = useDemoEntries();
+  const { entries, saving, updateField, toggleSkill, saveEntry, resetEntry, appointmentDate, setAppointment } = useDemoEntries();
   const [lang, setLang] = useState<Lang>(
     () => (localStorage.getItem('skillcheck-lang') as Lang) || 'en'
   );
@@ -29,6 +29,8 @@ export default function DemoPage() {
       saving={saving}
       lang={lang}
       onSwitchLang={switchLang}
+      appointmentDate={appointmentDate}
+      setAppointment={setAppointment}
     />
   );
 }
