@@ -38,7 +38,7 @@ function useHashRoute() {
 
 export default function App() {
   const { user, loading: authLoading, signIn, signOut } = useAuth();
-  const { entries, saving, updateField, toggleSkill, saveEntry, resetEntry } = useEntries(user?.id);
+  const { entries, saving, appointmentDate, updateField, toggleSkill, saveEntry, resetEntry, setAppointment } = useEntries(user?.id);
   const { hash, goBack } = useHashRoute();
   const [lang, setLang] = useState<Lang>(
     () => (localStorage.getItem('skillcheck-lang') as Lang) || 'en'
@@ -86,6 +86,8 @@ export default function App() {
       saving={saving}
       lang={lang}
       onSwitchLang={switchLang}
+      appointmentDate={appointmentDate}
+      setAppointment={setAppointment}
     />
   );
 }

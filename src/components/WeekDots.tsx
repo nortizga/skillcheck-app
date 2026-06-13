@@ -30,12 +30,17 @@ export default function WeekDots({ entries, selectedDate, onSelect, dayLabels }:
         return (
           <button
             key={dk}
-            onClick={() => !future && onSelect(dk)}
+            onPointerDown={(e) => {
+              e.preventDefault();
+              if (!future) onSelect(dk);
+            }}
             disabled={future}
-            className="flex flex-col items-center gap-1 border-none px-2 py-1.5 rounded-[10px] transition-all duration-150 cursor-pointer disabled:cursor-not-allowed"
+            className="flex flex-col items-center gap-1 border-none px-2.5 py-2 rounded-[10px] transition-all duration-150 cursor-pointer disabled:cursor-not-allowed"
             style={{
               background: isSelected ? '#FFC857' : 'transparent',
               opacity: future ? 0.28 : 1,
+              touchAction: 'manipulation',
+              minWidth: 40,
             }}
           >
             <span
